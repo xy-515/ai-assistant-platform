@@ -1,0 +1,326 @@
+/* ═══════════════════════════════════════════════════════════════
+   Micro-Interactions — 全局微交互样式
+   ==============================================================
+   1. 按钮涟漪 + 缩放
+   2. 卡片入场动画
+   3. 输入框聚焦发光
+   4. Toast 滑入滑出
+   5. 滚动条美化
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════
+   1. BUTTON — 点击缩放 + 涟漪
+   ============================================================== */
+
+/* 全局按钮缩放 */
+button,
+.btn,
+.el-button {
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.2s ease,
+              background 0.2s ease !important;
+  position: relative;
+  overflow: hidden;           /* 涟漪不溢出圆角 */
+}
+
+button:active:not(:disabled),
+.btn:active:not(:disabled),
+.el-button:active:not(:disabled) {
+  transform: scale(0.96) !important;
+}
+
+/* ── 涟漪伪元素 ──────────────────────────────────────── */
+.btn-ripple,
+.el-button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-ripple::after,
+.el-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.45) 10%, transparent 10%);
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transform: scale(10);
+  transition: transform 0.5s, opacity 0.6s;
+  pointer-events: none;
+}
+
+.btn-ripple:active::after,
+.el-button:active::after {
+  transform: scale(0);
+  opacity: 1;
+  transition: 0s;             /* 按压瞬间出现，抬起后消失 */
+}
+
+/* Outline / light 按钮用深色涟漪 */
+.el-button--default::after,
+.el-button.is-plain::after {
+  background: radial-gradient(circle, rgba(0,0,0,0.08) 10%, transparent 10%);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   2. CARD — 入场淡入 + 上移
+   ============================================================== */
+
+/* 触发入场动画的卡片容器 */
+.card-enter-stage {
+  --card-delay: 0ms;
+}
+
+/* 每个卡片独立延迟，形成瀑布效果 */
+.card-enter-stage > .card,
+.card-enter-stage > .el-card,
+.card-enter-stage > .tabs-card,
+.card-enter-stage > * {
+  animation: card-rise-in 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  animation-delay: var(--card-delay, 0ms);
+}
+
+/* 子元素瀑布延迟 */
+.card-enter-stage > *:nth-child(1) { --card-delay: 0ms; }
+.card-enter-stage > *:nth-child(2) { --card-delay: 60ms; }
+.card-enter-stage > *:nth-child(3) { --card-delay: 120ms; }
+.card-enter-stage > *:nth-child(4) { --card-delay: 180ms; }
+.card-enter-stage > *:nth-child(5) { --card-delay: 240ms; }
+.card-enter-stage > *:nth-child(6) { --card-delay: 300ms; }
+
+/* 页面级别主要卡片入场 */
+.page-card-enter {
+  animation: card-rise-in 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@keyframes card-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 延迟变体 */
+.card-enter-delay-1 { animation-delay: 0.05s; }
+.card-enter-delay-2 { animation-delay: 0.10s; }
+.card-enter-delay-3 { animation-delay: 0.15s; }
+.card-enter-delay-4 { animation-delay: 0.20s; }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   3. INPUT — 聚焦发光动画
+   ============================================================== */
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+textarea,
+select,
+.el-input__wrapper,
+.el-textarea__inner {
+  transition: border-color 0.25s ease,
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.2s ease !important;
+}
+
+/* 聚焦发光 */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+textarea:focus,
+select:focus {
+  border-color: #3B82F6 !important;
+  box-shadow:
+    0 0 0 3px rgba(59, 130, 246, 0.12),
+    0 0 20px rgba(59, 130, 246, 0.06) !important;
+  outline: none;
+}
+
+/* Element Plus 输入框聚焦 */
+.el-input.is-focus .el-input__wrapper {
+  border-color: #3B82F6 !important;
+  box-shadow:
+    0 0 0 3px rgba(59, 130, 246, 0.12),
+    0 0 20px rgba(59, 130, 246, 0.06) !important;
+}
+
+.el-textarea.is-focus .el-textarea__inner {
+  border-color: #3B82F6 !important;
+  box-shadow:
+    0 0 0 3px rgba(59, 130, 246, 0.12),
+    0 0 20px rgba(59, 130, 246, 0.06) !important;
+}
+
+/* 错误状态发光 */
+.el-input.is-error .el-input__wrapper,
+.el-textarea.is-error .el-textarea__inner {
+  border-color: #F56C6C !important;
+  box-shadow:
+    0 0 0 3px rgba(245, 108, 108, 0.10),
+    0 0 16px rgba(245, 108, 108, 0.05) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   4. TOAST / MESSAGE — 滑入滑出
+   ============================================================== */
+
+/* Element Plus Message 覆盖 */
+.el-message {
+  border-radius: 10px !important;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.10) !important;
+  animation: toast-slide-in 0.35s cubic-bezier(0.22, 0.61, 0.36, 1) both !important;
+}
+
+.el-message.is-closing {
+  animation: toast-slide-out 0.25s cubic-bezier(0.55, 0, 1, 0.45) forwards !important;
+}
+
+/* 不同类型颜色条 */
+.el-message--success { border-left: 4px solid #67C23A !important; }
+.el-message--warning { border-left: 4px solid #E6A23C !important; }
+.el-message--error   { border-left: 4px solid #F56C6C !important; }
+.el-message--info    { border-left: 4px solid #909399 !important; }
+
+@keyframes toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes toast-slide-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.95);
+  }
+}
+
+/* Element Plus Notification 同样处理 */
+.el-notification {
+  animation: toast-slide-in 0.35s cubic-bezier(0.22, 0.61, 0.36, 1) both !important;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   5. SCROLLBAR — 细圆角美化
+   ============================================================== */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D0D5DD;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  transition: background 0.25s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #6B7280;
+}
+
+/* 暗色滚动条（放在暗色容器内自动适配） */
+.dark-scrollbar::-webkit-scrollbar-thumb,
+pre::-webkit-scrollbar-thumb,
+.code-block::-webkit-scrollbar-thumb {
+  background: #4B5563;
+  border-radius: 3px;
+}
+
+.dark-scrollbar::-webkit-scrollbar-thumb:hover,
+pre::-webkit-scrollbar-thumb:hover,
+.code-block::-webkit-scrollbar-thumb:hover {
+  background: #6B7280;
+}
+
+/* Firefox 滚动条 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #D0D5DD transparent;
+}
+
+pre, .code-block, .dark-scrollbar {
+  scrollbar-color: #4B5563 transparent;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   6. EXTRA — 链接下划线动画、列表项 hover
+   ============================================================== */
+
+/* 导航链接悬停下划线滑入 */
+.nav-link-underline {
+  position: relative;
+  text-decoration: none;
+}
+
+.nav-link-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  border-radius: 1px;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* 列表项悬浮平移 */
+.list-item-hover {
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.list-item-hover:hover {
+  transform: translateX(4px);
+}
+
+/* 图片/图标悬浮放大 */
+.img-hover-scale,
+.icon-hover-scale {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.img-hover-scale:hover,
+.icon-hover-scale:hover {
+  transform: scale(1.08);
+}

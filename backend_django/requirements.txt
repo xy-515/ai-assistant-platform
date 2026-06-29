@@ -1,0 +1,12 @@
+# ── Django & DRF ────────────────────────────────
+django>=5.0
+djangorestframework>=3.15
+djangorestframework-simplejwt>=5.4
+django-cors-headers>=4.4
+
+# ── LLM Integration ──────────────────────────────
+httpx>=0.28
+python-dotenv>=1.0
+
+# ── Async Support ─────────────────────────────────
+asgiref>=3.8
