@@ -469,8 +469,3 @@ python test_code_api.py
 - 📦 数据库文件 `db.sqlite3` 未提交到仓库，首次运行 `migrate` 会自动创建
 
 ---
-
-<p align="center">
-  <strong>Made with ❤️ by 陈俊宇 (Junyu Chen)</strong><br>
-  <sub>2024 — 2026 | 毕业设计作品 | 全栈自研</sub>
-</p>
